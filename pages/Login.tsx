@@ -128,32 +128,31 @@ const Login: React.FC<LoginProps> = ({ onLogin, technicians, clients, adminCrede
                <div className="p-10 pb-8 text-center bg-slate-50/50 border-b border-slate-100"><div className="inline-flex items-center justify-center p-4 bg-slate-900 rounded-[1.75rem] shadow-xl shadow-slate-200 mb-6"><Key className="text-white" size={32} /></div><h1 className="text-3xl font-black text-slate-900 tracking-tight">Recovery</h1></div>
                <div className="p-10 space-y-8">
   {error && (
-    <div className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3">
-      <ShieldAlert className="text-red-500" size={18} />
-      <p className="text-xs font-bold text-red-600">{error}</p>
+    <div className="...">
+      {/* error message */}
     </div>
   )}
 
   {resetStep === 'EMAIL' && (
-    <form onSubmit={handleRequestOtp} className="space-y-6">
-      {/* ...email input... */}
+    <form onSubmit={handleRequestOtp} className="...">
+      {/* email input */}
     </form>
   )}
 
   {resetStep === 'OTP' && (
-    <form onSubmit={handleVerifyOtp} className="space-y-6">
-      {/* ...otp input... */}
+    <form onSubmit={handleVerifyOtp} className="...">
+      {/* otp input */}
     </form>
   )}
 
   {resetStep === 'NEW_PASS' && (
-    <form onSubmit={handleResetPassword} className="space-y-6">
-      {/* ...new password inputs... */}
+    <form onSubmit={handleResetPassword} className="...">
+      {/* new password inputs */}
       <button type="submit" disabled={loading} className="...">Reset</button>
     </form>
   )}
 
-  {/* Back button always visible */}
+  {/* Always-visible Back button */}
   <button
     onClick={() => {
       setIsResetting(false);
@@ -164,6 +163,9 @@ const Login: React.FC<LoginProps> = ({ onLogin, technicians, clients, adminCrede
   >
     <ArrowLeft size={14} /> Back
   </button>
+</div>
+
+ 
 </div>
             </div>
           )}
