@@ -96,7 +96,7 @@ const Admin: React.FC<AdminProps> = ({ technicians, setTechnicians, clients, set
       name: '',
       phone: '',
       email: '',
-      password: '',
+      password: 'password123',
       specialty: JobScope.CCTV,
       status: 'Available'
     });
@@ -193,53 +193,85 @@ const Admin: React.FC<AdminProps> = ({ technicians, setTechnicians, clients, set
             </div>
             <button onClick={openAddTech} className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition-all font-black text-xs uppercase tracking-widest shadow-xl shadow-blue-100"><UserPlus size={18} /> Provision New Account</button>
           </div>
-          <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
+          
+          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead>
-                  <tr className="bg-slate-50 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] border-b border-slate-100">
-                    <th className="px-8 py-6">Staff Identity</th>
-                    <th className="px-8 py-6">Credentials & Role</th>
-                    <th className="px-8 py-6">Deployment Status</th>
-                    <th className="px-8 py-6 text-right pr-12">Actions</th>
-                  </tr>
-                </thead>
                 <tbody className="divide-y divide-slate-100">
                   {technicians.map(tech => (
                     <tr key={tech.id} className="hover:bg-slate-50/50 group transition-colors">
+                      {/* Technician Identity */}
                       <td className="px-8 py-6">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-black text-xl shadow-inner group-hover:bg-blue-600 group-hover:text-white transition-all">{tech.name.charAt(0)}</div>
+                        <div className="flex items-center gap-6">
+                          <div className={`w-14 h-14 rounded-full flex items-center justify-center font-black text-xl text-white shadow-lg ${tech.name === 'Michael Tan' ? 'bg-blue-600 shadow-blue-200' : 'bg-blue-400/20 text-blue-600 shadow-none'}`}>
+                            {tech.name.charAt(0)}
+                          </div>
                           <div>
-                            <p className="text-sm font-black text-slate-900 leading-tight">{tech.name}</p>
-                            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mt-1">{tech.specialty}</p>
+                            <p className="text-lg font-black text-slate-900 leading-tight">{tech.name}</p>
+                            <p className="text-[11px] text-slate-400 font-black uppercase tracking-widest mt-1">{tech.specialty}</p>
                           </div>
                         </div>
                       </td>
+
+                      {/* Contact Credentials */}
                       <td className="px-8 py-6">
-                        <div className="space-y-1">
-                          <p className="text-xs font-bold text-slate-700 flex items-center gap-2"><Mail size={12} className="text-slate-300" /> {tech.email}</p>
-                          <p className="text-xs font-bold text-slate-700 flex items-center gap-2"><Phone size={12} className="text-slate-300" /> {tech.phone}</p>
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-3 text-slate-400">
+                            <Mail size={16} className="text-slate-200" />
+                            <span className="text-sm font-bold text-slate-600">{tech.email}</span>
+                          </div>
+                          <div className="flex items-center gap-3 text-slate-400">
+                            <Phone size={16} className="text-slate-200" />
+                            <span className="text-sm font-bold text-slate-600">{tech.phone}</span>
+                          </div>
                         </div>
                       </td>
+
+                      {/* Status pill with selection */}
                       <td className="px-8 py-6">
                         <div className="flex items-center gap-4">
-                          <div className={`w-2.5 h-2.5 rounded-full shadow-sm ${tech.status === 'Available' ? 'bg-emerald-500 animate-pulse' : tech.status === 'On Site' ? 'bg-blue-500' : 'bg-amber-500'}`} />
-                          <div className="relative">
-                            <select value={tech.status} onChange={(e) => updateTechStatus(tech.id, e.target.value as Technician['status'])} className={`appearance-none text-[10px] font-black uppercase tracking-widest pl-3 pr-8 py-1.5 rounded-xl border-2 outline-none transition-all cursor-pointer ${tech.status === 'Available' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : tech.status === 'On Site' ? 'bg-blue-50 text-blue-700 border-blue-100' : 'bg-amber-50 text-amber-700 border-amber-100'}`}>
-                              <option value="Available">Available</option>
-                              <option value="On Site">On Site</option>
-                              <option value="Away">Away</option>
+                          <div className={`w-2.5 h-2.5 rounded-full ${tech.status === 'Available' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'}`} />
+                          <div className="relative group/pill">
+                            <select 
+                              value={tech.status} 
+                              onChange={(e) => updateTechStatus(tech.id, e.target.value as Technician['status'])}
+                              className={`appearance-none text-[11px] font-black uppercase tracking-[0.1em] pl-4 pr-10 py-2 rounded-xl border-2 cursor-pointer transition-all outline-none ${
+                                tech.status === 'Available' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-slate-50 text-slate-500 border-slate-100'
+                              }`}
+                            >
+                              <option value="Available">AVAILABLE</option>
+                              <option value="On Site">ON SITE</option>
+                              <option value="Away">AWAY</option>
                             </select>
-                            <ChevronDown size={12} className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none opacity-40" />
+                            <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-300" />
                           </div>
                         </div>
                       </td>
-                      <td className="px-8 py-6 text-right pr-10">
-                        <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button onClick={() => inviteToWhatsApp(tech)} className="p-2.5 text-emerald-500 hover:bg-emerald-50 rounded-xl" title="WhatsApp Invite"><MessageSquare size={18} /></button>
-                          <button onClick={() => openEditTech(tech)} className="p-2.5 text-blue-600 hover:bg-blue-50 rounded-xl" title="Manage Account"><Edit3 size={18} /></button>
-                          <button onClick={() => removeTech(tech.id)} className="p-2.5 text-red-500 hover:bg-red-50 rounded-xl" title="Revoke Access"><Trash2 size={18} /></button>
+
+                      {/* Professional Actions */}
+                      <td className="px-8 py-6 text-right pr-12">
+                        <div className="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button 
+                            onClick={() => inviteToWhatsApp(tech)}
+                            className="p-3 bg-white text-emerald-500 hover:bg-emerald-50 rounded-2xl border border-slate-100 shadow-sm transition-all"
+                            title="Send WhatsApp Invitation"
+                          >
+                            <MessageSquare size={20} />
+                          </button>
+                          <button 
+                            onClick={() => openEditTech(tech)}
+                            className="p-3 bg-white text-blue-600 hover:bg-blue-50 rounded-2xl border border-slate-100 shadow-sm transition-all"
+                            title="Edit Personnel Records"
+                          >
+                            <Edit3 size={20} />
+                          </button>
+                          <button 
+                            onClick={() => removeTech(tech.id)}
+                            className="p-3 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white rounded-2xl border border-red-100 shadow-sm transition-all"
+                            title="Revoke System Access"
+                          >
+                            <Trash2 size={20} />
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -259,7 +291,7 @@ const Admin: React.FC<AdminProps> = ({ technicians, setTechnicians, clients, set
               <p className="text-[10px] text-slate-400 font-bold uppercase mt-1">Portal access for building management</p>
             </div>
           </div>
-          <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
+          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
              <table className="w-full text-left">
                 <thead>
                   <tr className="bg-slate-50 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] border-b border-slate-100">
@@ -302,7 +334,7 @@ const Admin: React.FC<AdminProps> = ({ technicians, setTechnicians, clients, set
 
       {activeTab === 'COMPANY' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 animate-in slide-in-from-right-4">
-          <div className="bg-white p-10 rounded-[3rem] border border-slate-200 shadow-sm space-y-8">
+          <div className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm space-y-8">
             <div className="flex items-center gap-4 pb-8 border-b border-slate-100">
               <div className="p-4 bg-blue-600 text-white rounded-3xl">
                 <ShieldCheck size={32} />
